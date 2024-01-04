@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
@@ -30,10 +31,9 @@ public class DeleteData extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
+	private String[] placeCategories = { "Health Facility", "Tourist Attraction", "Public Utilities",
+			"Hotel - Restaurant" };
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -47,79 +47,118 @@ public class DeleteData extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	private void deleteData(String category, String name) {
+		try {
+			File file = new File("places.txt");
+			Scanner scanner = new Scanner(file);
+			String currentLine = scanner.nextLine();
+			while (scanner.hasNextLine()) {
+				String placeCategory = currentLine;
+				String placeName = scanner.nextLine();
+				String placeAddress = scanner.nextLine();
+				String placeContact = scanner.nextLine();
+				String placeAbout = "";
+				while (scanner.hasNextLine()) {
+					currentLine = scanner.nextLine();
+					if (Arrays.asList(placeCategories).contains(currentLine)) {
+						break;
+					}
+					placeAbout += currentLine + "\n";
+				}
+				if (!(placeCategory.equals(category) && placeName.equals(name))) {
+					try {
+						FileWriter writer = new FileWriter("temp.txt", true);
+						writer.write(placeCategory + "\n" + placeName + "\n" + placeAddress + "\n" + placeContact + "\n"
+								+ placeAbout);
+						writer.close();
+						System.out.println("Successfully wrote to the file.");
+					} catch (IOException e) {
+						System.out.println("An error occurred.");
+						e.printStackTrace();
+					}
+				}
+			}
+			scanner.close();
+			File originalFile = new File("places.txt");
+			File newFile = new File("temp.txt");
+			originalFile.delete();
+			newFile.renameTo(originalFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+
 	public DeleteData() {
 		setTitle("Delete Data");
 
-		List<String> colleges = new ArrayList<String>();
+		List<String> healthFacilitiesList = new ArrayList<String>();
 		try {
-			File myObj = new File("places.txt");
-			Scanner myReader = new Scanner(myObj);
-			while (myReader.hasNextLine()) {
-				String data = myReader.nextLine();
-				if (data.equals("College")) {
-					colleges.add(myReader.nextLine());
+			File file = new File("places.txt");
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String data = scanner.nextLine();
+				if (data.equals("Health Facility")) {
+					healthFacilitiesList.add(scanner.nextLine());
 				}
 			}
-			myReader.close();
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-		String[] collegeArray = colleges.toArray(new String[] {});
+		String[] healthFacilitiesArray = healthFacilitiesList.toArray(new String[] {});
 
-		List<String> libraries = new ArrayList<String>();
+		List<String> publicUtilitiesList = new ArrayList<String>();
 		try {
-			File myObj = new File("places.txt");
-			Scanner myReader = new Scanner(myObj);
-			while (myReader.hasNextLine()) {
-				String data = myReader.nextLine();
-				if (data.equals("Library")) {
-					libraries.add(myReader.nextLine());
+			File file = new File("places.txt");
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String data = scanner.nextLine();
+				if (data.equals("Public Utilities")) {
+					publicUtilitiesList.add(scanner.nextLine());
 				}
 			}
-			myReader.close();
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-		String[] libraryArray = libraries.toArray(new String[] {});
+		String[] publicUtilitiesArray = publicUtilitiesList.toArray(new String[] {});
 
-		List<String> attractions = new ArrayList<String>();
+		List<String> touristAttractionsList = new ArrayList<String>();
 		try {
-			File myObj = new File("places.txt");
-			Scanner myReader = new Scanner(myObj);
-			while (myReader.hasNextLine()) {
-				String data = myReader.nextLine();
+			File file = new File("places.txt");
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String data = scanner.nextLine();
 				if (data.equals("Tourist Attraction")) {
-					attractions.add(myReader.nextLine());
+					touristAttractionsList.add(scanner.nextLine());
 				}
 			}
-			myReader.close();
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-		String[] attractionArray = attractions.toArray(new String[] {});
+		String[] touristAttractionsArray = touristAttractionsList.toArray(new String[] {});
 
-		List<String> hotels = new ArrayList<String>();
+		List<String> hotelRestaurantsList = new ArrayList<String>();
 		try {
-			File myObj = new File("places.txt");
-			Scanner myReader = new Scanner(myObj);
-			while (myReader.hasNextLine()) {
-				String data = myReader.nextLine();
-				if (data.equals("Hotel")) {
-					hotels.add(myReader.nextLine());
+			File file = new File("places.txt");
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String data = scanner.nextLine();
+				if (data.equals("Hotel - Restaurant")) {
+					hotelRestaurantsList.add(scanner.nextLine());
 				}
 			}
-			myReader.close();
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-		String[] hotelArray = hotels.toArray(new String[] {});
+		String[] hotelRestaurantsArray = hotelRestaurantsList.toArray(new String[] {});
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 427, 476);
@@ -128,201 +167,77 @@ public class DeleteData extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel collegeLabel = new JLabel("College");
-		collegeLabel.setBounds(24, 22, 65, 13);
-		contentPane.add(collegeLabel);
+		JLabel healthFacilityLabel = new JLabel("Health Facility");
+		healthFacilityLabel.setBounds(24, 22, 80, 13);
+		contentPane.add(healthFacilityLabel);
 
-		JComboBox<String> collegeComboBox = new JComboBox<>();
-		collegeComboBox.setModel(new DefaultComboBoxModel<String>(collegeArray));
-		collegeComboBox.setBounds(24, 45, 356, 21);
-		contentPane.add(collegeComboBox);
+		JComboBox<String> healthFacilityComboBox = new JComboBox<>();
+		healthFacilityComboBox.setModel(new DefaultComboBoxModel<String>(healthFacilitiesArray));
+		healthFacilityComboBox.setBounds(24, 45, 356, 21);
+		contentPane.add(healthFacilityComboBox);
 
-		JButton collegeDeleteButton = new JButton("Delete");
-		collegeDeleteButton.addActionListener(new ActionListener() {
+		JButton healthFacilityDeleteButton = new JButton("Delete");
+		healthFacilityDeleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					String name = collegeComboBox.getSelectedItem().toString();
-					String place = "College";
-					File myObj = new File("places.txt");
-					Scanner myReader = new Scanner(myObj);
-					while (myReader.hasNextLine()) {
-						String plc = myReader.nextLine();
-						String nm = myReader.nextLine();
-						String abt = myReader.nextLine();
-						String ctc = myReader.nextLine();
-						String addr = myReader.nextLine();
-						if (!(plc.equals(place) && name.equals(nm))) {
-							try {
-								FileWriter myWriter = new FileWriter("places2.txt", true);
-								myWriter.write(plc + "\n" + nm + "\n" + abt + "\n" + ctc + "\n" + addr + "\n");
-								myWriter.close();
-								System.out.println("Successfully wrote to the file.");
-							} catch (IOException e) {
-								System.out.println("An error occurred.");
-								e.printStackTrace();
-							}
-						}
-					}
-					myReader.close();
-					File originalFile = new File("places.txt");
-					File newFile = new File("places2.txt");
-					originalFile.delete();
-					newFile.renameTo(originalFile);
-				} catch (FileNotFoundException e) {
-					System.out.println("An error occurred.");
-					e.printStackTrace();
-				}
+				deleteData("Health Facility", healthFacilityComboBox.getSelectedItem().toString());
 			}
 		});
-		collegeDeleteButton.setBounds(24, 76, 85, 21);
-		contentPane.add(collegeDeleteButton);
+		healthFacilityDeleteButton.setBounds(24, 76, 85, 21);
+		contentPane.add(healthFacilityDeleteButton);
 
-		JLabel libraryLabel = new JLabel("Library");
-		libraryLabel.setBounds(24, 121, 45, 13);
-		contentPane.add(libraryLabel);
+		JLabel publicUtilitiesLabel = new JLabel("Public Utilities");
+		publicUtilitiesLabel.setBounds(24, 121, 90, 13);
+		contentPane.add(publicUtilitiesLabel);
 
-		JComboBox<String> libraryComboBox = new JComboBox<>();
-		libraryComboBox.setModel(new DefaultComboBoxModel<String>(libraryArray));
-		libraryComboBox.setBounds(24, 144, 349, 21);
-		contentPane.add(libraryComboBox);
+		JComboBox<String> publicUtilitiesComboBox = new JComboBox<>();
+		publicUtilitiesComboBox.setModel(new DefaultComboBoxModel<String>(publicUtilitiesArray));
+		publicUtilitiesComboBox.setBounds(24, 144, 349, 21);
+		contentPane.add(publicUtilitiesComboBox);
 
-		JButton libraryDeleteButton = new JButton("Delete");
-		libraryDeleteButton.addActionListener(new ActionListener() {
+		JButton publicUtilitiesDeleteButton = new JButton("Delete");
+		publicUtilitiesDeleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					String name = libraryComboBox.getSelectedItem().toString();
-					String place = "Library";
-					File myObj = new File("places.txt");
-					Scanner myReader = new Scanner(myObj);
-					while (myReader.hasNextLine()) {
-						String plc = myReader.nextLine();
-						String nm = myReader.nextLine();
-						String abt = myReader.nextLine();
-						String ctc = myReader.nextLine();
-						String addr = myReader.nextLine();
-						if (!(plc.equals(place) && name.equals(nm))) {
-							try {
-								FileWriter myWriter = new FileWriter("places2.txt", true);
-								myWriter.write(plc + "\n" + nm + "\n" + abt + "\n" + ctc + "\n" + addr + "\n");
-								myWriter.close();
-								System.out.println("Successfully wrote to the file.");
-							} catch (IOException e) {
-								System.out.println("An error occurred.");
-								e.printStackTrace();
-							}
-						}
-					}
-					myReader.close();
-					File originalFile = new File("places.txt");
-					File newFile = new File("places2.txt");
-					originalFile.delete();
-					newFile.renameTo(originalFile);
-				} catch (FileNotFoundException e) {
-					System.out.println("An error occurred.");
-					e.printStackTrace();
-				}
+				deleteData("Public Utilities", publicUtilitiesComboBox.getSelectedItem().toString());
 			}
 		});
-		libraryDeleteButton.setBounds(24, 175, 85, 21);
-		contentPane.add(libraryDeleteButton);
+		publicUtilitiesDeleteButton.setBounds(24, 175, 85, 21);
+		contentPane.add(publicUtilitiesDeleteButton);
 
-		JLabel attractionLabel = new JLabel("Tourist Attractions");
-		attractionLabel.setBounds(24, 219, 105, 13);
-		contentPane.add(attractionLabel);
+		JLabel touristAttractionLabel = new JLabel("Tourist Attractions");
+		touristAttractionLabel.setBounds(24, 219, 105, 13);
+		contentPane.add(touristAttractionLabel);
 
-		JComboBox<String> attractionComboBox = new JComboBox<>();
-		attractionComboBox.setModel(new DefaultComboBoxModel<String>(attractionArray));
-		attractionComboBox.setBounds(24, 242, 349, 21);
-		contentPane.add(attractionComboBox);
+		JComboBox<String> touristAttractionComboBox = new JComboBox<>();
+		touristAttractionComboBox.setModel(new DefaultComboBoxModel<String>(touristAttractionsArray));
+		touristAttractionComboBox.setBounds(24, 242, 349, 21);
+		contentPane.add(touristAttractionComboBox);
 
-		JButton attractionDeleteButton = new JButton("Delete");
-		attractionDeleteButton.addActionListener(new ActionListener() {
+		JButton touristAttractionDeleteButton = new JButton("Delete");
+		touristAttractionDeleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					String name = attractionComboBox.getSelectedItem().toString();
-					String place = "Tourist Attraction";
-					File myObj = new File("places.txt");
-					Scanner myReader = new Scanner(myObj);
-					while (myReader.hasNextLine()) {
-						String plc = myReader.nextLine();
-						String nm = myReader.nextLine();
-						String abt = myReader.nextLine();
-						String ctc = myReader.nextLine();
-						String addr = myReader.nextLine();
-						if (!(plc.equals(place) && name.equals(nm))) {
-							try {
-								FileWriter myWriter = new FileWriter("places2.txt", true);
-								myWriter.write(plc + "\n" + nm + "\n" + abt + "\n" + ctc + "\n" + addr + "\n");
-								myWriter.close();
-								System.out.println("Successfully wrote to the file.");
-							} catch (IOException e) {
-								System.out.println("An error occurred.");
-								e.printStackTrace();
-							}
-						}
-					}
-					myReader.close();
-					File originalFile = new File("places.txt");
-					File newFile = new File("places2.txt");
-					originalFile.delete();
-					newFile.renameTo(originalFile);
-				} catch (FileNotFoundException e) {
-					System.out.println("An error occurred.");
-					e.printStackTrace();
-				}
+				deleteData("Tourist Attraction", touristAttractionComboBox.getSelectedItem().toString());
 			}
 		});
-		attractionDeleteButton.setBounds(24, 273, 85, 21);
-		contentPane.add(attractionDeleteButton);
+		touristAttractionDeleteButton.setBounds(24, 273, 85, 21);
+		contentPane.add(touristAttractionDeleteButton);
 
-		JLabel hotelLabel = new JLabel("Hotels");
-		hotelLabel.setBounds(24, 317, 45, 13);
-		contentPane.add(hotelLabel);
+		JLabel hotelRestaurantLabel = new JLabel("Hotel - Restaurant");
+		hotelRestaurantLabel.setBounds(24, 317, 120, 13);
+		contentPane.add(hotelRestaurantLabel);
 
-		JComboBox<String> hotelComboBox = new JComboBox<>();
-		hotelComboBox.setModel(new DefaultComboBoxModel<String>(hotelArray));
-		hotelComboBox.setBounds(24, 340, 349, 21);
-		contentPane.add(hotelComboBox);
+		JComboBox<String> hotelRestaurantComboBox = new JComboBox<>();
+		hotelRestaurantComboBox.setModel(new DefaultComboBoxModel<String>(hotelRestaurantsArray));
+		hotelRestaurantComboBox.setBounds(24, 340, 349, 21);
+		contentPane.add(hotelRestaurantComboBox);
 
-		JButton hotelDeleteButton = new JButton("Delete");
-		hotelDeleteButton.addActionListener(new ActionListener() {
+		JButton hotelRestaurantDeleteButton = new JButton("Delete");
+		hotelRestaurantDeleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					String name = hotelComboBox.getSelectedItem().toString();
-					String place = "Hotel";
-					File myObj = new File("places.txt");
-					Scanner myReader = new Scanner(myObj);
-					while (myReader.hasNextLine()) {
-						String plc = myReader.nextLine();
-						String nm = myReader.nextLine();
-						String abt = myReader.nextLine();
-						String ctc = myReader.nextLine();
-						String addr = myReader.nextLine();
-						if (!(plc.equals(place) && name.equals(nm))) {
-							try {
-								FileWriter myWriter = new FileWriter("places2.txt", true);
-								myWriter.write(plc + "\n" + nm + "\n" + abt + "\n" + ctc + "\n" + addr + "\n");
-								myWriter.close();
-								System.out.println("Successfully wrote to the file.");
-							} catch (IOException e) {
-								System.out.println("An error occurred.");
-								e.printStackTrace();
-							}
-						}
-					}
-					myReader.close();
-					File originalFile = new File("places.txt");
-					File newFile = new File("places2.txt");
-					originalFile.delete();
-					newFile.renameTo(originalFile);
-				} catch (FileNotFoundException e) {
-					System.out.println("An error occurred.");
-					e.printStackTrace();
-				}
+				deleteData("Hotel - Restaurant", hotelRestaurantComboBox.getSelectedItem().toString());
 			}
 		});
-		hotelDeleteButton.setBounds(24, 371, 85, 21);
-		contentPane.add(hotelDeleteButton);
+		hotelRestaurantDeleteButton.setBounds(24, 371, 85, 21);
+		contentPane.add(hotelRestaurantDeleteButton);
 
 		JButton closeButton = new JButton("Close");
 		closeButton.addActionListener(new ActionListener() {

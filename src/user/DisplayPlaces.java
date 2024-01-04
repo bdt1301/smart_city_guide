@@ -17,6 +17,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 
@@ -28,6 +29,7 @@ public class DisplayPlaces extends JFrame {
 	private JPanel contentPane;
 	private JTextField nameField;
 	private JTextField contactInfoField;
+	private String[] placeStrings = { "Health Facility", "Tourist Attraction", "Public Utilities", "Hotel - Restaurant" };
 
 	/**
 	 * Launch the application.
@@ -102,15 +104,26 @@ public class DisplayPlaces extends JFrame {
 			Scanner fileScanner = new Scanner(placesFile);
 			while (fileScanner.hasNextLine()) {
 				String plc = fileScanner.nextLine();
-				String nm = fileScanner.nextLine();
-				String abt = fileScanner.nextLine();
-				String ctc = fileScanner.nextLine();
-				String addr = fileScanner.nextLine();
-				if (plc.equals(place) && nm.equals(name)) {
-					nameField.setText(nm);
-					contactInfoField.setText(ctc);
-					addressTextArea.setText(addr);
-					aboutTextArea.setText(abt);
+				if (plc.equals(place)) {
+					String nm = fileScanner.nextLine();
+					if (nm.equals(name)) {
+						String addr = fileScanner.nextLine();
+						String ctc = fileScanner.nextLine();
+						String abt = "";
+						while (fileScanner.hasNextLine()) {
+							String line = fileScanner.nextLine();
+							if (Arrays.asList(placeStrings).contains(line)) {
+								break;
+							}
+							abt += line + "\n";
+						}
+						if (plc.equals(place) && nm.equals(name)) {
+							nameField.setText(nm);
+							contactInfoField.setText(ctc);
+							addressTextArea.setText(addr);
+							aboutTextArea.setText(abt);
+						}
+					}
 				}
 			}
 			fileScanner.close();
@@ -118,6 +131,11 @@ public class DisplayPlaces extends JFrame {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
+		
+		nameField.setEditable(false);
+		contactInfoField.setEditable(false);
+		addressTextArea.setEditable(false);
+		aboutTextArea.setEditable(false);
 
 		JButton closeButton = new JButton("Close");
 		closeButton.addActionListener(new ActionListener() {

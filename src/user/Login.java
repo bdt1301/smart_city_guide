@@ -10,8 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
@@ -24,7 +22,7 @@ import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
     private int frameWidth = 420;
-    private int frameHeight = 300;
+    private int frameHeight = 260;
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -64,39 +62,32 @@ public class Login extends JFrame {
         contentPane.add(passwordLabel);
 
         usernameField = new JTextField();
-        usernameField.setBounds(181, 44, 139, 19);
+        usernameField.setBounds(181, 44, 147, 19);
         contentPane.add(usernameField);
         usernameField.setColumns(10);
 
         passwordField = new JPasswordField();
-        passwordField.setBounds(181, 83, 139, 19);
+        passwordField.setBounds(181, 83, 147, 19);
         contentPane.add(passwordField);
-
-        JLabel userTypeLabel = new JLabel("User Type");
-        userTypeLabel.setBounds(56, 132, 115, 13);
-        contentPane.add(userTypeLabel);
-
-        JComboBox<String> userTypeComboBox = new JComboBox<>();
-        userTypeComboBox.setModel(new DefaultComboBoxModel<>(new String[] { "Resident", "Tourist" }));
-        userTypeComboBox.setBounds(181, 128, 139, 21);
-        contentPane.add(userTypeComboBox);
 
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 String username = usernameField.getText();
                 String password = String.valueOf(passwordField.getPassword());
-                String userType = userTypeComboBox.getSelectedItem().toString();
-                String loginDetails = username + " " + password + " " + userType;
-                int loginSuccessFlag = 0;
+                String loginDetails = username + " " + password;
+                String storedData = "";
+                boolean loginSuccess = false;
 
                 try {
                     File userFile = new File("usernames.txt");
                     Scanner fileScanner = new Scanner(userFile);
                     while (fileScanner.hasNextLine()) {
-                        String storedData = fileScanner.nextLine();
+                        storedData = fileScanner.nextLine();
                         if (storedData.equals(loginDetails)) {
-                            loginSuccessFlag = 1;
+                            loginSuccess = true;
+                            storedData = fileScanner.nextLine();
+                            break;
                         }
                     }
                     fileScanner.close();
@@ -105,20 +96,17 @@ public class Login extends JFrame {
                     e.printStackTrace();
                 }
 
-                if (loginSuccessFlag == 1 && userType.equals("Resident")) {
-                    ResidentMenu residentMenu = new ResidentMenu();
-                    residentMenu.setVisible(true);
-                    dispose();
-                } else if (loginSuccessFlag == 1 && userType.equals("Tourist")) {
-                    TouristMenu touristMenu = new TouristMenu();
-                    touristMenu.setVisible(true);
+                if (loginSuccess) {
+                    PlaceMenu placeMenu = new PlaceMenu(storedData);
+                    placeMenu.setVisible(true);
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid Username or Password!");
                 }
             }
         });
-        loginButton.setBounds(181, 187, 68, 21);
+
+        loginButton.setBounds(181, 127, 68, 21);
         contentPane.add(loginButton);
 
         JButton closeButton = new JButton("Close");
@@ -127,7 +115,7 @@ public class Login extends JFrame {
                 dispose();
             }
         });
-        closeButton.setBounds(259, 187, 68, 21);
+        closeButton.setBounds(259, 127, 68, 21);
         contentPane.add(closeButton);
 
         JLabel background = new JLabel();
@@ -142,10 +130,10 @@ public class Login extends JFrame {
             public void componentResized(ComponentEvent e) {
                 int newWidth = contentPane.getWidth();
                 int newHeight = contentPane.getHeight();
-				Image scaledImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-				background.setIcon(new ImageIcon(scaledImage));
-				background.setBounds(0, 0, newWidth, newHeight);
-			}
-		});
-	}
+                Image scaledImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+                background.setIcon(new ImageIcon(scaledImage));
+                background.setBounds(0, 0, newWidth, newHeight);
+            }
+        });
+    }
 }
