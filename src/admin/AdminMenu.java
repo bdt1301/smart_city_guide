@@ -17,8 +17,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
 
 public class AdminMenu extends JFrame {
-	private int menuWidth = 470;
-	private int menuHeight = 496;	
+	private int menuWidth = 320;
+	private int menuHeight = 360;	
 	
 	private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ public class AdminMenu extends JFrame {
 	public AdminMenu() {
 		setTitle("Admin Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 395, 309);
+		setBounds(100, 100, menuWidth, menuHeight);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -86,6 +86,22 @@ public class AdminMenu extends JFrame {
 		deleteDataButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		deleteDataButton.setBounds(154, 115, 97, 33);
 		contentPane.add(deleteDataButton);
+		
+		JLabel editDataLabel = new JLabel("Edit Data");
+		editDataLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		editDataLabel.setBounds(35, 187, 129, 33);
+		contentPane.add(editDataLabel);
+
+		JButton editDataButton = new JButton("Edit");
+		editDataButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent arg0) {
+		        EditorMenu editData = new EditorMenu();
+		        editData.setVisible(true);
+		    }
+		});
+		editDataButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		editDataButton.setBounds(154, 190, 97, 33);
+		contentPane.add(editDataButton);
 
 		JButton closeButton = new JButton("Close");
 		closeButton.addActionListener(new ActionListener() {
@@ -93,7 +109,7 @@ public class AdminMenu extends JFrame {
 				dispose();
 			}
 		});
-		closeButton.setBounds(47, 207, 97, 21);
+		closeButton.setBounds(154, 256, 97, 21);
 		contentPane.add(closeButton);
 
 		JLabel backgroundLabel = new JLabel();

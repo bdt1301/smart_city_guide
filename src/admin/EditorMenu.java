@@ -6,6 +6,7 @@ import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -16,29 +17,24 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 
-public class DeleteData extends JFrame {
+public class EditorMenu extends JFrame {
 	private int menuWidth = 550;
 	private int menuHeight = 550;
 
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
-	private String[] placeCategories = { "Health Facility", "Tourist Attraction", "Public Utilities",
-			"Hotel - Restaurant", "Educational Facility", "Shopping Location" };
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DeleteData frame = new DeleteData();
+					EditorMenu frame = new EditorMenu();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,50 +43,8 @@ public class DeleteData extends JFrame {
 		});
 	}
 
-	public void deleteData(String category, String name) {
-		try {
-			File file = new File("places.txt");
-			Scanner scanner = new Scanner(file);
-			String currentLine = scanner.nextLine();
-			while (scanner.hasNextLine()) {
-				String placeCategory = currentLine;
-				String placeName = scanner.nextLine();
-				String placeAddress = scanner.nextLine();
-				String placeContact = scanner.nextLine();
-				String placeAbout = "";
-				while (scanner.hasNextLine()) {
-					currentLine = scanner.nextLine();
-					if (Arrays.asList(placeCategories).contains(currentLine)) {
-						break;
-					}
-					placeAbout += currentLine + "\n";
-				}
-				if (!(placeCategory.equals(category) && placeName.equals(name))) {
-					try {
-						FileWriter writer = new FileWriter("temp.txt", true);
-						writer.write(placeCategory + "\n" + placeName + "\n" + placeAddress + "\n" + placeContact + "\n"
-								+ placeAbout);
-						writer.close();
-						System.out.println("Successfully wrote to the file.");
-					} catch (IOException e) {
-						System.out.println("An error occurred.");
-						e.printStackTrace();
-					}
-				}
-			}
-			scanner.close();
-			File originalFile = new File("places.txt");
-			File newFile = new File("temp.txt");
-			originalFile.delete();
-			newFile.renameTo(originalFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		}
-	}
-
-	public DeleteData() {
-		setTitle("Delete Data");
+	public EditorMenu() {
+		setTitle("Edit Data");
 
 		List<String> healthFacilitiesList = new ArrayList<String>();
 		try {
@@ -211,25 +165,15 @@ public class DeleteData extends JFrame {
 		healthFacilityComboBox.setBounds(150, 20, 360, 21);
 		contentPane.add(healthFacilityComboBox);
 
-		JButton healthFacilityDeleteButton = new JButton("Delete");
-		healthFacilityDeleteButton.addActionListener(new ActionListener() {
+		JButton healthFacilityEditButton = new JButton("Edit");
+		healthFacilityEditButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				deleteData("Health Facility", healthFacilityComboBox.getSelectedItem().toString());
-				dispose();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							DeleteData frame = new DeleteData();
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				EditData ed = new EditData("Health Facility", healthFacilityComboBox.getSelectedItem().toString());
+				ed.setVisible(true);
 			}
 		});
-		healthFacilityDeleteButton.setBounds(425, 50, 85, 21);
-		contentPane.add(healthFacilityDeleteButton);
+		healthFacilityEditButton.setBounds(425, 50, 85, 21);
+		contentPane.add(healthFacilityEditButton);
 
 //		Public Utilities
 		JLabel publicUtilitiesLabel = new JLabel("Public Utilities");
@@ -241,25 +185,15 @@ public class DeleteData extends JFrame {
 		publicUtilitiesComboBox.setBounds(150, 88, 360, 21);
 		contentPane.add(publicUtilitiesComboBox);
 
-		JButton publicUtilitiesDeleteButton = new JButton("Delete");
-		publicUtilitiesDeleteButton.addActionListener(new ActionListener() {
+		JButton publicUtilitiesEditButton = new JButton("Edit");
+		publicUtilitiesEditButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				deleteData("Public Utilities", publicUtilitiesComboBox.getSelectedItem().toString());
-				dispose();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							DeleteData frame = new DeleteData();
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				EditData ed = new EditData("Public Utilities", publicUtilitiesComboBox.getSelectedItem().toString());
+				ed.setVisible(true);
 			}
 		});
-		publicUtilitiesDeleteButton.setBounds(425, 118, 85, 21);
-		contentPane.add(publicUtilitiesDeleteButton);
+		publicUtilitiesEditButton.setBounds(425, 118, 85, 21);
+		contentPane.add(publicUtilitiesEditButton);
 
 //		Tourist Attraction
 		JLabel touristAttractionLabel = new JLabel("Tourist Attraction");
@@ -271,25 +205,15 @@ public class DeleteData extends JFrame {
 		touristAttractionComboBox.setBounds(150, 156, 360, 21);
 		contentPane.add(touristAttractionComboBox);
 
-		JButton touristAttractionDeleteButton = new JButton("Delete");
-		touristAttractionDeleteButton.addActionListener(new ActionListener() {
+		JButton touristAttractionEditButton = new JButton("Edit");
+		touristAttractionEditButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				deleteData("Tourist Attraction", touristAttractionComboBox.getSelectedItem().toString());
-				dispose();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							DeleteData frame = new DeleteData();
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				EditData ed = new EditData("Tourist Attraction", touristAttractionComboBox.getSelectedItem().toString());
+				ed.setVisible(true);
 			}
 		});
-		touristAttractionDeleteButton.setBounds(425, 186, 85, 21);
-		contentPane.add(touristAttractionDeleteButton);
+		touristAttractionEditButton.setBounds(425, 186, 85, 21);
+		contentPane.add(touristAttractionEditButton);
 
 //		Hotel - Restaurant
 		JLabel hotelRestaurantLabel = new JLabel("Hotel - Restaurant");
@@ -301,29 +225,19 @@ public class DeleteData extends JFrame {
 		hotelRestaurantComboBox.setBounds(150, 224, 360, 21);
 		contentPane.add(hotelRestaurantComboBox);
 
-		JButton hotelRestaurantDeleteButton = new JButton("Delete");
-		hotelRestaurantDeleteButton.addActionListener(new ActionListener() {
+		JButton hotelRestaurantEditButton = new JButton("Edit");
+		hotelRestaurantEditButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				deleteData("Hotel - Restaurant", hotelRestaurantComboBox.getSelectedItem().toString());
-				dispose();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							DeleteData frame = new DeleteData();
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				EditData ed = new EditData("Hotel - Restaurant", hotelRestaurantComboBox.getSelectedItem().toString());
+				ed.setVisible(true);
 			}
 		});
-		hotelRestaurantDeleteButton.setBounds(425, 254, 85, 21);
-		contentPane.add(hotelRestaurantDeleteButton);
+		hotelRestaurantEditButton.setBounds(425, 254, 85, 21);
+		contentPane.add(hotelRestaurantEditButton);
 		
 //		Educational Facility
 		JLabel educationalFacilityLabel = new JLabel("Educational Facility");
-		educationalFacilityLabel.setBounds(24, 294, 120, 13);
+		educationalFacilityLabel.setBounds(24, 294, 140, 13);
 		contentPane.add(educationalFacilityLabel);
 
 		JComboBox<String> educationalFacilityComboBox = new JComboBox<>();
@@ -331,55 +245,35 @@ public class DeleteData extends JFrame {
 		educationalFacilityComboBox.setBounds(150, 292, 360, 21);
 		contentPane.add(educationalFacilityComboBox);
 
-		JButton educationalFacilityDeleteButton = new JButton("Delete");
-		educationalFacilityDeleteButton.addActionListener(new ActionListener() {
+		JButton educationalFacilityEditButton = new JButton("Edit");
+		educationalFacilityEditButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent arg0) {
-		        deleteData("Educational Facility", educationalFacilityComboBox.getSelectedItem().toString());
-		        dispose();
-		        EventQueue.invokeLater(new Runnable() {
-		            public void run() {
-		                try {
-		                    DeleteData frame = new DeleteData();
-		                    frame.setVisible(true);
-		                } catch (Exception e) {
-		                    e.printStackTrace();
-		                }
-		            }
-		        });
+		        EditData ed = new EditData("Educational Facility", educationalFacilityComboBox.getSelectedItem().toString());
+		        ed.setVisible(true);
 		    }
 		});
-		educationalFacilityDeleteButton.setBounds(425, 322, 85, 21);
-		contentPane.add(educationalFacilityDeleteButton);
+		educationalFacilityEditButton.setBounds(425, 322, 85, 21);
+		contentPane.add(educationalFacilityEditButton);
 
 //		Shopping Location
 		JLabel shoppingLocationLabel = new JLabel("Shopping Location");
-		shoppingLocationLabel.setBounds(24, 362, 120, 13);
+		shoppingLocationLabel.setBounds(24, 358, 140, 13);
 		contentPane.add(shoppingLocationLabel);
 
 		JComboBox<String> shoppingLocationComboBox = new JComboBox<>();
 		shoppingLocationComboBox.setModel(new DefaultComboBoxModel<String>(shoppingLocationsArray));
-		shoppingLocationComboBox.setBounds(150, 360, 360, 21);
+		shoppingLocationComboBox.setBounds(150, 356, 360, 21);
 		contentPane.add(shoppingLocationComboBox);
 
-		JButton shoppingLocationDeleteButton = new JButton("Delete");
-		shoppingLocationDeleteButton.addActionListener(new ActionListener() {
+		JButton shoppingLocationEditButton = new JButton("Edit");
+		shoppingLocationEditButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent arg0) {
-		        deleteData("Shopping Location", shoppingLocationComboBox.getSelectedItem().toString());
-		        dispose();
-		        EventQueue.invokeLater(new Runnable() {
-		            public void run() {
-		                try {
-		                    DeleteData frame = new DeleteData();
-		                    frame.setVisible(true);
-		                } catch (Exception e) {
-		                    e.printStackTrace();
-		                }
-		            }
-		        });
+		        EditData ed = new EditData("Shopping Location", shoppingLocationComboBox.getSelectedItem().toString());
+		        ed.setVisible(true);
 		    }
 		});
-		shoppingLocationDeleteButton.setBounds(425, 390, 85, 21);
-		contentPane.add(shoppingLocationDeleteButton);
+		shoppingLocationEditButton.setBounds(425, 386, 85, 21);
+		contentPane.add(shoppingLocationEditButton);
 
 
 		JButton closeButton = new JButton("Close");

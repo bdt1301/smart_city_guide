@@ -17,249 +17,333 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 class HealthFacility {
-    String name;
-    String about;
-    String contactInfo;
-    String address;
+	String name;
+	String about;
+	String contactInfo;
+	String address;
 
-    public HealthFacility() {
+	public HealthFacility() {
+		
+	}
 
-    }
-
-    public HealthFacility(String name, String address, String contactInfo, String about) {
-        this.name = name;
-        this.about = about;
-        this.contactInfo = contactInfo;
-        this.address = address;
-    }
+	public HealthFacility(String name, String address, String contactInfo, String about) {
+		this.name = name;
+		this.about = about;
+		this.contactInfo = contactInfo;
+		this.address = address;
+	}
 }
 
 class TouristAttraction {
-    String name;
-    String about;
-    String contactInfo;
-    String address;
+	String name;
+	String about;
+	String contactInfo;
+	String address;
 
-    public TouristAttraction() {
+	public TouristAttraction() {
 
-    }
+	}
 
-    public TouristAttraction(String name, String address, String contactInfo, String about) {
-        this.name = name;
-        this.about = about;
-        this.contactInfo = contactInfo;
-        this.address = address;
-    }
+	public TouristAttraction(String name, String address, String contactInfo, String about) {
+		this.name = name;
+		this.about = about;
+		this.contactInfo = contactInfo;
+		this.address = address;
+	}
 }
 
 class PublicUtilities {
-    String name;
-    String about;
-    String contactInfo;
-    String address;
+	String name;
+	String about;
+	String contactInfo;
+	String address;
 
-    public PublicUtilities() {
+	public PublicUtilities() {
 
-    }
+	}
 
-    public PublicUtilities(String name, String address, String contactInfo, String about) {
-        this.name = name;
-        this.about = about;
-        this.contactInfo = contactInfo;
-        this.address = address;
-    }
+	public PublicUtilities(String name, String address, String contactInfo, String about) {
+		this.name = name;
+		this.about = about;
+		this.contactInfo = contactInfo;
+		this.address = address;
+	}
 }
 
 class HotelRestaurant {
-    String name;
-    String about;
-    String contactInfo;
-    String address;
+	String name;
+	String about;
+	String contactInfo;
+	String address;
 
-    public HotelRestaurant() {
+	public HotelRestaurant() {
 
-    }
+	}
 
-    public HotelRestaurant(String name, String address, String contactInfo, String about) {
-        this.name = name;
-        this.about = about;
-        this.contactInfo = contactInfo;
-        this.address = address;
-    }
+	public HotelRestaurant(String name, String address, String contactInfo, String about) {
+		this.name = name;
+		this.about = about;
+		this.contactInfo = contactInfo;
+		this.address = address;
+	}
+}
+
+class EducationalFacility {
+	String name;
+	String about;
+	String contactInfo;
+	String address;
+
+	public EducationalFacility() {
+
+	}
+
+	public EducationalFacility(String name, String address, String contactInfo, String about) {
+		this.name = name;
+		this.about = about;
+		this.contactInfo = contactInfo;
+		this.address = address;
+	}
+}
+
+class ShoppingLocation {
+	String name;
+	String about;
+	String contactInfo;
+	String address;
+
+	public ShoppingLocation() {
+
+	}
+
+	public ShoppingLocation(String name, String address, String contactInfo, String about) {
+		this.name = name;
+		this.about = about;
+		this.contactInfo = contactInfo;
+		this.address = address;
+	}
 }
 
 public class AddData extends JFrame {
-    private int widthMenu = 470;
-    private int heightMenu = 496;
+	private int widthMenu = 470;
+	private int heightMenu = 496;
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public ArrayList<HotelRestaurant> hotelRestaurants = new ArrayList<HotelRestaurant>();
-    public ArrayList<PublicUtilities> publicUtilities = new ArrayList<PublicUtilities>();
-    public ArrayList<TouristAttraction> touristAttractions = new ArrayList<TouristAttraction>();
-    public ArrayList<HealthFacility> healthFacilities = new ArrayList<HealthFacility>();
+	public ArrayList<HotelRestaurant> hotelRestaurants = new ArrayList<HotelRestaurant>();
+	public ArrayList<PublicUtilities> publicUtilities = new ArrayList<PublicUtilities>();
+	public ArrayList<TouristAttraction> touristAttractions = new ArrayList<TouristAttraction>();
+	public ArrayList<HealthFacility> healthFacilities = new ArrayList<HealthFacility>();
+	public ArrayList<EducationalFacility> educationalFacilities = new ArrayList<EducationalFacility>();
+	public ArrayList<ShoppingLocation> shoppingLocations = new ArrayList<ShoppingLocation>();
+	private String[] placeCategories = { "Health Facility", "Tourist Attraction", "Public Utilities",
+			"Hotel - Restaurant", "Educational Facility", "Shopping Location" };
 
-    private JPanel contentPane;
-    private JTextField nameTextField;
-    private JTextField contactInfoTextField;
+	private JPanel contentPane;
+	private JTextField nameTextField;
+	private JTextField contactInfoTextField;
 
-    public static void main(String[] args) {
+	private ArrayList<String> loadData() {
+		ArrayList<String> data = new ArrayList<String>();
+		data.add("");
+		try {
+			File file = new File("places.txt");
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				if (Arrays.asList(placeCategories).contains(line)) {
+					data.add(line + " - " + scanner.nextLine());
+				}
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+		return data;
+	}
 
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
+	private ArrayList<String> addedData = loadData();
 
-                try {
-                    AddData frame = new AddData();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+	public void addData(String place, String name, String address, String contact, String about) {
+		String placeNamePair = place + " - " + name;
 
-    }
+		if (addedData.contains(placeNamePair)) {
+			JOptionPane.showMessageDialog(null, "Data with the same Place and Name already exists!");
+		} else if (address.length() > 100) {
+			JOptionPane.showMessageDialog(null, "Address should not exceed 100 characters!");
+		} else if (about.equals("") || contact.equals("") || name.equals("") || address.equals("")) {
+			JOptionPane.showMessageDialog(null, "Invalid Input!");
+		} else {
+			try {
+				FileWriter myWriter = new FileWriter("places.txt", true);
+				myWriter.write(place + "\n" + name + "\n" + address + "\n" + contact + "\n" + about + "\n");
+				myWriter.close();
+				System.out.println("Successfully wrote to the file.");
+			} catch (IOException e) {
+				System.out.println("An error occurred.");
+				e.printStackTrace();
+			}
 
-    public AddData() {
-        setTitle("AddData");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 470, 496);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
+			addedData.add(placeNamePair);
 
-        JLabel nameLabel = new JLabel("Name");
-        nameLabel.setBounds(46, 41, 45, 13);
-        contentPane.add(nameLabel);
+			if (place.equals("Health Facility")) {
+				HealthFacility facility = new HealthFacility(name, address, contact, about);
+				healthFacilities.add(facility);
+				JOptionPane.showMessageDialog(null, "Health Facility Added!");
+			}
+			if (place.equals("Tourist Attraction")) {
+				TouristAttraction attraction = new TouristAttraction(name, address, contact, about);
+				touristAttractions.add(attraction);
+				JOptionPane.showMessageDialog(null, "Tourist Attraction Added!");
+			}
+			if (place.equals("Public Utilities")) {
+				PublicUtilities utility = new PublicUtilities(name, address, contact, about);
+				publicUtilities.add(utility);
+				JOptionPane.showMessageDialog(null, "Public Utilities Added!");
+			}
+			if (place.equals("Hotel - Restaurant")) {
+				HotelRestaurant restaurant = new HotelRestaurant(name, address, contact, about);
+				hotelRestaurants.add(restaurant);
+				JOptionPane.showMessageDialog(null, "Hotel - Restaurant Added!");
+			}
+			if (place.equals("Educational Facility")) {
+				EducationalFacility facility = new EducationalFacility(name, address, contact, about);
+				educationalFacilities.add(facility);
+				JOptionPane.showMessageDialog(null, "Educational Facility Added!");
+			}
+			if (place.equals("Shopping Location")) {
+				ShoppingLocation location = new ShoppingLocation(name, address, contact, about);
+				shoppingLocations.add(location);
+				JOptionPane.showMessageDialog(null, "Shopping Location Added!");
+			}
 
-        nameTextField = new JTextField();
-        nameTextField.setColumns(10);
-        nameTextField.setBounds(139, 38, 271, 19);
-        contentPane.add(nameTextField);
+		}
+	}
 
-        JLabel addressLabel = new JLabel("Address");
-        addressLabel.setBounds(46, 69, 50, 13);
-        contentPane.add(addressLabel);
+	public static void main(String[] args) {
 
-        JTextArea addressTextArea = new JTextArea();
-        addressTextArea.setWrapStyleWord(true);
-        addressTextArea.setLineWrap(true);
-        JScrollPane addressScrollPane = new JScrollPane(addressTextArea);
-        addressScrollPane.setBounds(46, 90, 364, 36);
-        contentPane.add(addressScrollPane);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
 
-        JLabel contactInfoLabel = new JLabel("Contact Info");
-        contactInfoLabel.setBounds(46, 146, 79, 13);
-        contentPane.add(contactInfoLabel);
+				try {
+					AddData frame = new AddData();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
-        contactInfoTextField = new JTextField();
-        contactInfoTextField.setColumns(10);
-        contactInfoTextField.setBounds(139, 143, 271, 19);
-        contentPane.add(contactInfoTextField);
+	}
 
-        JLabel aboutLabel = new JLabel("About");
-        aboutLabel.setBounds(46, 183, 65, 13);
-        contentPane.add(aboutLabel);
+	public AddData() {
+		setTitle("AddData");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 470, 496);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 
-        JTextArea aboutTextArea = new JTextArea();
-        aboutTextArea.setWrapStyleWord(true);
-        aboutTextArea.setLineWrap(true);
-        JScrollPane aboutScrollPane = new JScrollPane(aboutTextArea);
-        aboutScrollPane.setBounds(46, 205, 364, 148);
-        contentPane.add(aboutScrollPane);
+		JLabel nameLabel = new JLabel("Name");
+		nameLabel.setBounds(46, 41, 45, 13);
+		contentPane.add(nameLabel);
 
-        JComboBox<String> placeComboBox = new JComboBox<>();
-        placeComboBox.setModel(new DefaultComboBoxModel<>(
-                new String[] { "Health Facility", "Tourist Attraction", "Public Utilities", "Hotel - Restaurant" }));
-        placeComboBox.setBounds(46, 7, 136, 21);
-        contentPane.add(placeComboBox);
+		nameTextField = new JTextField();
+		nameTextField.setColumns(10);
+		nameTextField.setBounds(139, 38, 271, 19);
+		contentPane.add(nameTextField);
 
-        JButton addDataButton = new JButton("Add Data");
-        addDataButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
+		JLabel addressLabel = new JLabel("Address");
+		addressLabel.setBounds(46, 69, 50, 13);
+		contentPane.add(addressLabel);
 
-                String place;
-                String name, about, contact, address;
-                about = aboutTextArea.getText();
-                contact = contactInfoTextField.getText();
+		JTextArea addressTextArea = new JTextArea();
+		addressTextArea.setWrapStyleWord(true);
+		addressTextArea.setLineWrap(true);
+		JScrollPane addressScrollPane = new JScrollPane(addressTextArea);
+		addressScrollPane.setBounds(46, 90, 364, 36);
+		contentPane.add(addressScrollPane);
 
-                name = nameTextField.getText();
-                address = addressTextArea.getText();
-                place = placeComboBox.getSelectedItem().toString();
-                if (address.length() > 100) {
-                    JOptionPane.showMessageDialog(null, "Address should not exceed 100 characters!");
-                } else if (about.equals("") || contact.equals("") || name.equals("") || address.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Invalid Input!");
-                } else {
-                    try {
-                        FileWriter myWriter = new FileWriter("places.txt", true);
-                        myWriter.write(place + "\n" + name + "\n" + address + "\n" + contact + "\n" + about + "\n");
-                        myWriter.close();
-                        System.out.println("Successfully wrote to the file.");
-                    } catch (IOException e) {
-                        System.out.println("An error occurred.");
-                        e.printStackTrace();
-                    }
+		JLabel contactInfoLabel = new JLabel("Contact Info");
+		contactInfoLabel.setBounds(46, 146, 79, 13);
+		contentPane.add(contactInfoLabel);
 
-                    if (place.equals("Health Facility")) {
-                        HealthFacility facility = new HealthFacility(name, address, contact, about);
-                        healthFacilities.add(facility);
-                        JOptionPane.showMessageDialog(null, "Health Facility Added!");
-                    }
-                    if (place.equals("Tourist Attraction")) {
-                        TouristAttraction attraction = new TouristAttraction(name, address, contact, about);
-                        touristAttractions.add(attraction);
-                        JOptionPane.showMessageDialog(null, "Tourist Attraction Added!");
-                    }
-                    if (place.equals("Public Utilities")) {
-                        PublicUtilities utility = new PublicUtilities(name, address, contact, about);
-                        publicUtilities.add(utility);
-                        JOptionPane.showMessageDialog(null, "Public Utilities Added!");
-                    }
-                    if (place.equals("Hotel - Restaurant")) {
-                        HotelRestaurant restaurant = new HotelRestaurant(name, address, contact, about);
-                        hotelRestaurants.add(restaurant);
-                        JOptionPane.showMessageDialog(null, "Hotel - Restaurant Added!");
-                    }
-                }
-            }
-        });
-        addDataButton.setBounds(46, 381, 85, 21);
-        contentPane.add(addDataButton);
+		contactInfoTextField = new JTextField();
+		contactInfoTextField.setColumns(10);
+		contactInfoTextField.setBounds(139, 143, 271, 19);
+		contentPane.add(contactInfoTextField);
 
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                dispose();
-            }
-        });
-        closeButton.setBounds(146, 381, 79, 19);
-        contentPane.add(closeButton);
+		JLabel aboutLabel = new JLabel("About");
+		aboutLabel.setBounds(46, 183, 65, 13);
+		contentPane.add(aboutLabel);
 
-        JLabel background = new JLabel();
-        ImageIcon icon = new ImageIcon("img/data.jpg");
-        Image image = icon.getImage().getScaledInstance(widthMenu, heightMenu, Image.SCALE_SMOOTH);
-        background.setIcon(new ImageIcon(image));
-        background.setBounds(0, 0, widthMenu, heightMenu);
-        contentPane.add(background);
+		JTextArea aboutTextArea = new JTextArea();
+		aboutTextArea.setWrapStyleWord(true);
+		aboutTextArea.setLineWrap(true);
+		JScrollPane aboutScrollPane = new JScrollPane(aboutTextArea);
+		aboutScrollPane.setBounds(46, 205, 364, 148);
+		contentPane.add(aboutScrollPane);
 
-        contentPane.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                int newWidth = contentPane.getWidth();
-                int newHeight = contentPane.getHeight();
-                Image scaledImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-                background.setIcon(new ImageIcon(scaledImage));
-                background.setBounds(0, 0, newWidth, newHeight);
-            }
-        });
-    }
+		JComboBox<String> placeComboBox = new JComboBox<>();
+		placeComboBox.setModel(new DefaultComboBoxModel<>(new String[] { "Health Facility", "Educational Facility",
+				"Shopping Location", "Tourist Attraction", "Public Utilities", "Hotel - Restaurant" }));
+		placeComboBox.setBounds(46, 7, 136, 21);
+		contentPane.add(placeComboBox);
+
+		JButton addDataButton = new JButton("Add Data");
+		addDataButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String place = placeComboBox.getSelectedItem().toString();
+				String name = nameTextField.getText();
+				String address = addressTextArea.getText();
+				String contact = contactInfoTextField.getText();
+				String about = aboutTextArea.getText();
+
+				addData(place, name, address, contact, about);
+			}
+		});
+		addDataButton.setBounds(46, 381, 85, 21);
+		contentPane.add(addDataButton);
+
+		JButton closeButton = new JButton("Close");
+		closeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		closeButton.setBounds(146, 381, 79, 19);
+		contentPane.add(closeButton);
+
+		JLabel background = new JLabel();
+		ImageIcon icon = new ImageIcon("img/data.jpg");
+		Image image = icon.getImage().getScaledInstance(widthMenu, heightMenu, Image.SCALE_SMOOTH);
+		background.setIcon(new ImageIcon(image));
+		background.setBounds(0, 0, widthMenu, heightMenu);
+		contentPane.add(background);
+
+		contentPane.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				int newWidth = contentPane.getWidth();
+				int newHeight = contentPane.getHeight();
+				Image scaledImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+				background.setIcon(new ImageIcon(scaledImage));
+				background.setBounds(0, 0, newWidth, newHeight);
+			}
+		});
+	}
 }
