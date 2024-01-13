@@ -29,7 +29,8 @@ public class DisplayPlaces extends JFrame {
 	private JPanel contentPane;
 	private JTextField nameField;
 	private JTextField contactInfoField;
-	private String[] placeStrings = { "Health Facility", "Tourist Attraction", "Public Utilities", "Hotel - Restaurant" };
+	private String[] placeStrings = { "Health Facility", "Tourist Attraction", "Public Utilities", "Hotel - Restaurant",
+			"Educational Facility", "Shopping Location" };
 
 	/**
 	 * Launch the application.
@@ -131,7 +132,7 @@ public class DisplayPlaces extends JFrame {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-		
+
 		nameField.setEditable(false);
 		contactInfoField.setEditable(false);
 		addressTextArea.setEditable(false);
