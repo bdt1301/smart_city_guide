@@ -28,111 +28,74 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-class HealthFacility {
+class Location {
 	String name;
 	String about;
 	String contactInfo;
 	String address;
 
+	public Location() {
+	}
+
+	public Location(String name, String address, String contactInfo, String about) {
+		this.name = name;
+		this.about = about;
+		this.contactInfo = contactInfo;
+		this.address = address;
+	}
+}
+
+class HealthFacility extends Location {
 	public HealthFacility() {
-		
 	}
 
 	public HealthFacility(String name, String address, String contactInfo, String about) {
-		this.name = name;
-		this.about = about;
-		this.contactInfo = contactInfo;
-		this.address = address;
+		super(name, address, contactInfo, about);
 	}
 }
 
-class TouristAttraction {
-	String name;
-	String about;
-	String contactInfo;
-	String address;
-
+class TouristAttraction extends Location {
 	public TouristAttraction() {
-
 	}
 
 	public TouristAttraction(String name, String address, String contactInfo, String about) {
-		this.name = name;
-		this.about = about;
-		this.contactInfo = contactInfo;
-		this.address = address;
+		super(name, address, contactInfo, about);
 	}
 }
 
-class PublicUtilities {
-	String name;
-	String about;
-	String contactInfo;
-	String address;
-
+class PublicUtilities extends Location {
 	public PublicUtilities() {
-
 	}
 
 	public PublicUtilities(String name, String address, String contactInfo, String about) {
-		this.name = name;
-		this.about = about;
-		this.contactInfo = contactInfo;
-		this.address = address;
+		super(name, address, contactInfo, about);
 	}
 }
 
-class HotelRestaurant {
-	String name;
-	String about;
-	String contactInfo;
-	String address;
-
+class HotelRestaurant extends Location {
 	public HotelRestaurant() {
-
 	}
 
 	public HotelRestaurant(String name, String address, String contactInfo, String about) {
-		this.name = name;
-		this.about = about;
-		this.contactInfo = contactInfo;
-		this.address = address;
+		super(name, address, contactInfo, about);
 	}
 }
 
-class EducationalFacility {
-	String name;
-	String about;
-	String contactInfo;
-	String address;
-
+class EducationalFacility extends Location {
 	public EducationalFacility() {
-
 	}
 
 	public EducationalFacility(String name, String address, String contactInfo, String about) {
-		this.name = name;
-		this.about = about;
-		this.contactInfo = contactInfo;
-		this.address = address;
+		super(name, address, contactInfo, about);
 	}
 }
 
-class ShoppingLocation {
-	String name;
-	String about;
-	String contactInfo;
-	String address;
-
+class ShoppingLocation extends Location {
 	public ShoppingLocation() {
-
 	}
 
 	public ShoppingLocation(String name, String address, String contactInfo, String about) {
-		this.name = name;
-		this.about = about;
-		this.contactInfo = contactInfo;
-		this.address = address;
+		super(name, address, contactInfo, about);
 	}
 }
 

@@ -149,9 +149,8 @@ public class EditData extends JFrame {
 				AddData ad = new AddData();
 				ad.addData(place, newName, newAddress, newContact, newAbout);
 
-				dispose(); // Đóng cửa sổ EditData
-
-		        // Đóng cửa sổ EditorMenu nếu nó đã được tạo
+				dispose();
+				
 		        Window[] windows = Window.getWindows();
 		        for (Window window : windows) {
 		            if (window instanceof EditorMenu) {
