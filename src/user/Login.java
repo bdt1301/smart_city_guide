@@ -29,7 +29,6 @@ public class Login extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    // Launch the application.
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -43,7 +42,6 @@ public class Login extends JFrame {
         });
     }
 
-    // Create the frame.
     public Login() {
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

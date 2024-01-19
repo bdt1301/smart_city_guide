@@ -34,9 +34,6 @@ public class EditData extends JFrame {
 	private String[] placeCategories = { "Health Facility", "Tourist Attraction", "Public Utilities",
 			"Hotel - Restaurant", "Educational Facility", "Shopping Location" };
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -50,9 +47,6 @@ public class EditData extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public EditData(String place, String name) {
 		setTitle("EditData");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

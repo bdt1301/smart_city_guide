@@ -24,9 +24,6 @@ public class AdminMenu extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -40,9 +37,6 @@ public class AdminMenu extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public AdminMenu() {
 		setTitle("Admin Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

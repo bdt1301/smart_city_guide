@@ -27,9 +27,6 @@ public class AdminLogin extends JFrame {
 	private JTextField usernameTextField;
 	private JPasswordField passwordField;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,9 +40,6 @@ public class AdminLogin extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public AdminLogin() {
 		setTitle("Admin Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

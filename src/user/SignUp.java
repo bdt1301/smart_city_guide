@@ -63,9 +63,6 @@ public class SignUp extends JFrame {
 	private JTextField ageTextField;
 	private JPasswordField passwordField;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -79,9 +76,6 @@ public class SignUp extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public SignUp() {
 		setTitle("Sign Up");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -32,9 +32,6 @@ public class DisplayPlaces extends JFrame {
 	private String[] placeStrings = { "Health Facility", "Tourist Attraction", "Public Utilities", "Hotel - Restaurant",
 			"Educational Facility", "Shopping Location" };
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -48,9 +45,6 @@ public class DisplayPlaces extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public DisplayPlaces(String place, String name) {
 		setTitle("DisplayPlaces");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
